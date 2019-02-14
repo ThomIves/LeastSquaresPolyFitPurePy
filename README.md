@@ -1,7 +1,7 @@
 
-# Least Squares Poly Fit Pure Python without Numpy or Scipy
+# Least Squares with Polynomial Features Fit using Pure Python without Numpy or Scipy
 
-![Least Squares Poly Fit Pure Python without Numpy or Scipy Logo](https://github.com/ThomIves/LeastSquaresPolyFitPurePy/blob/master/Least_Squares_Poly_Logo.png)
+![Least Squares with Polynomial Features Fit using Pure Python without Numpy or Scipy](https://github.com/ThomIves/LeastSquaresPolyFitPurePy/blob/master/Least_Squares_Poly_Logo.png)
 > Coverage of least squares modeling in pure python with polynomial expansion inputs without numpy or scipy built up from previous blog posts from https://integratedmlai.com/.
 
 Our goal is to better understand principles of machine learning tools by exploring how to code them ourselves ...
@@ -16,7 +16,7 @@ At the other end of the spectrum, if you have background with python and linear 
 
 ## Further Explanation
 
-Please find the blog post related to this repo at https://integratedmlai.com/least-squares:-math-to-pure-python-without-numpy-or-scipy
+Please find the blog post related to this repo at https://integratedmlai.com/least-squares-with-polynomial-features-fit-using-pure-python-without-numpy-or-scipy/
 
 
 ## Deploying / Publishing
@@ -29,7 +29,7 @@ I am open to share the development and improvements of this with others, but it 
 
 ## Links
 
-This work came from [My GitHub Repo](https://integratedmlai.com/least-squares:-math-to-pure-python-without-numpy-or-scipy) originally.
+This work came from [My GitHub Repo](https://integratedmlai.com/least-squares-with-polynomial-features-fit-using-pure-python-without-numpy-or-scipy/) originally.
 
 ## Licensing
 
