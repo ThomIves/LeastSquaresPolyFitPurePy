@@ -14,10 +14,10 @@ import sys
 
 # Section 1: Fake data preparation 
 #   and visualization
-X = [[float(x)/25.0 for x in range(401)],[float(x)/50.0 for x in range(401)]]
+X = [[float(x)/12.5 for x in range(101)],[float(x)/25.0 for x in range(101)]]
 def y_of_x(xa):
     return 0.2*xa[0]**2 + 0.3*xa[0]*xa[1] + 0.7*xa[0] + 0.4*xa[1]**2 \
-            + 0.1*xa[1] + 2.0 #+ random.uniform(-0.2,0.2)
+            + 0.1*xa[1] + 2.0 + random.uniform(-0.5,0.5)
 Y = []
 for xa in la.transpose(X):
     Y.append(y_of_x(xa))
@@ -36,7 +36,7 @@ ax.set_title('Pure Python Least Squares Two Inputs Data Fit')
 # Section 3: Pure Python Tools Fit
 poly_pp = ml.Poly_Features_Pure_Py(order=2)
 Xp = poly_pp.fit_transform(la.transpose(X))
-ls_pp = ml.Least_Squares(tol=2)
+ls_pp = ml.Least_Squares(add_ones_column=False)
 ls_pp.fit(Xp, Y)
 
 # Section 4: SciKit Learn Fit NOT USED

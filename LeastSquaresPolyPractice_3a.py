@@ -16,7 +16,7 @@ import sys
 X = [[2,3,4,5,6,7,8],[1,1.5,2,2.5,3,3.5,4]]
 def y_of_x(xa):
     return 0.2*xa[0]**2 + 0.3*xa[0]*xa[1] + 0.7*xa[0] + 0.4*xa[1]**2 \
-            + 0.1*xa[1] + 2.0 #+ random.uniform(-0.2,0.2)
+            + 0.1*xa[1] + 2.0 + random.uniform(-2.0,2.0)
 Y = []
 for xa in la.transpose(X):
     Y.append(y_of_x(xa))
@@ -27,25 +27,40 @@ ax.scatter3D(X[0], X[1], Y)
 
 # Section 2: Get fake data in correct format
 X = la.transpose(X)
-Y = la.transpose(Y)
+Y = la.transpose([Y])
 
 # Section 3: Pure Python Tools Fit
 poly_pp = ml.Poly_Features_Pure_Py(order=2) # print(X) sys.exit()
-Xp = poly_pp.fit_transform(X)
-ls_pp = ml.Least_Squares(tol=2)
-ls_pp.fit(Xp, Y)
+Xpp = poly_pp.fit_transform(X)
+print(poly_pp.get_feature_names())
+la.print_matrix(Xpp)
+print()
+ls_pp = ml.Least_Squares(add_ones_column=False)
+ls_pp.fit(Xpp, Y)
+print(ls_pp.coefs)
+print()
 
 # Section 4: SciKit Learn Fit
 poly_sk = PolynomialFeatures(degree = 2)
-Xp = poly_sk.fit_transform(X)
+Xps = poly_sk.fit_transform(X)
+print(poly_sk.get_feature_names())
+print(Xps)
+print()
 ls_sk = LinearRegression()
-ls_sk.fit(Xp, Y)
+ls_sk.fit(Xps, Y)
 
 # Section 5: Coefficients Comparison
-temp_lsp_coefs = sorted(ls_pp.coefs)
-rounded_lsp_coefs = [round(x,8)+0 for x in la.transpose(temp_lsp_coefs)[0]]
-print('PurePy  LS coefficients:', rounded_lsp_coefs)
-print('SKLearn LS coefficients:', ls_sk.coef_, '\n')
+tmp_ls_pp_coefs = sorted(ls_pp.coefs)
+rounded_ls_pp_coefs = [round(x,8)+0 for x in la.transpose(tmp_ls_pp_coefs)[0]]
+print('PurePy  LS coefficients:', rounded_ls_pp_coefs)
+
+tmp_ls_sk_coefs = ls_sk.intercept_.tolist() + ls_sk.coef_[0][1:].tolist()
+tmp_ls_sk_coefs = sorted(tmp_ls_sk_coefs)
+rounded_ls_sk_coefs = [round(x,8)+0 for x in tmp_ls_sk_coefs]
+print('SKLearn LS coefficients:', rounded_ls_sk_coefs, '\n')
+
+print('Coef Deltas:', [rounded_ls_pp_coefs[i] - rounded_ls_sk_coefs[i] 
+        for i in range(len(rounded_ls_pp_coefs))])
 
 # Section 6: Create Fake Test Data
 XLS = [[2.0,2.50,3.0,3.50,4.0,4.50,5.0,5.50,6.0,6.50,7.0,7.5,8.0,8.5],
@@ -68,7 +83,7 @@ YLSsk = la.transpose(YLSsk)[0]
 YLSpp.sort()
 YLSsk.sort()
 deltas = [ YLSpp[i] - YLSsk[i] for i in range(len(YLSpp)) ]
-print( 'Prediction Deltas:', deltas , '\n')
+print( '\nPrediction Deltas:', deltas , '\n')
 
 # Section 8: Plot Both Methods
 ax.plot3D(XLS[0], XLS[1], YLSpp)

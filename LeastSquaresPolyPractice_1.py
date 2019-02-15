@@ -26,7 +26,7 @@ X = la.transpose([X])
 Y = la.transpose([Y])
 
 # Section 3: Pure Python Tools Fit
-poly_pp = ml.Poly_Features_Pure_Py(order=2)
+poly_pp = ml.Poly_Features_Pure_Py(order = 2)
 Xpp = poly_pp.fit_transform(X)
 ls_pp = ml.Least_Squares(add_ones_column=False)
 ls_pp.fit(Xpp, Y)
