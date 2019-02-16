@@ -15,7 +15,7 @@ import sys
 #   and visualization
 X = [1.5,2.0,2.5,3.0,3.5,4.0]
 def y_of_x(x):
-    return 0.2*x + 0.7*x**2 + random.uniform(-0.5,0.5)
+    return 0.2*x + 0.7*x**2 + random.uniform(-1,1)
 Y = []
 for x in X:
     Y.append(y_of_x(x))
@@ -29,9 +29,7 @@ Y = la.transpose([Y])
 # Section 3: Pure Python Tools Fit
 poly_pp = ml.Poly_Features_Pure_Py(order = 2)
 Xp = poly_pp.fit_transform(X)
-la.print_matrix(Xp)
 print('PP Feature Names:', poly_pp.get_feature_names())
-print('PP Params:', poly_pp.get_params())
 ls_pp = ml.Least_Squares(tol=2, add_ones_column=False)
 ls_pp.fit(Xp, Y)
 print()
@@ -39,9 +37,7 @@ print()
 # Section 4: SciKit Learn Fit
 poly_sk = PolynomialFeatures(degree = 2)
 X_poly = poly_sk.fit_transform(X)
-print(X_poly)
 print('SK Feature Names:', poly_sk.get_feature_names())
-print('SK Params:', poly_sk.get_params())
 ls_sk = LinearRegression()
 ls_sk.fit(X_poly, Y)
 print()

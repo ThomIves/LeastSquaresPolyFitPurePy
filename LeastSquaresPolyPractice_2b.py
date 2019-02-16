@@ -3,19 +3,16 @@ import MachineLearningPurePy as ml
 
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
-import numpy as np
 
 import matplotlib.pyplot as plt
-
 import random
-import sys
 
 
 # Section 1: Fake data preparation 
 #   and visualization
 X = [float(x)/20.0 for x in range(100)]
 def y_of_x(x):
-    return 0.2*x + 0.7*x**2 + random.uniform(-0.5,0.5)
+    return 0.2*x + 0.7*x**2 + random.uniform(-1,1)
 Y = []
 for x in X:
     Y.append(y_of_x(x))
