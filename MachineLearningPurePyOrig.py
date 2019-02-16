@@ -19,7 +19,7 @@ class Least_Squares:
         self.add_ones_column = add_ones_column
         self.tol = tol
 
-    def __format_data_correctly__(self, D):
+    def __format_data_correctly(self, D):
         """
         Private function used to make sure data is formatted
         as needed by the various functions in the procedure;
@@ -33,7 +33,7 @@ class Least_Squares:
         else:
             return D
 
-    def __orient_data_correctly__(self, D):
+    def __orient_data_correctly(self, D):
         """
         Private function to ensure data is oriented 
         correctly for least squares operations;
@@ -47,19 +47,19 @@ class Least_Squares:
         else:
             return D
 
-    def __condition_data__(self, D):
+    def __condition_data(self, D):
         """
         Private function to format data in 
         accordance with the previous two private functions
             :param D: The data
             :returns: Correctly conditioned data
         """
-        D = self.__format_data_correctly__(D)
-        D = self.__orient_data_correctly__(D)
+        D = self.__format_data_correctly(D)
+        D = self.__orient_data_correctly(D)
 
         return D
 
-    def __add_ones_column_for_intercept__(self, X):
+    def __add_ones_column_for_intercept(self, X):
         """
         Private function to append a column of 1's
         to the input matrix
@@ -81,13 +81,13 @@ class Least_Squares:
             :param Y: The conditioned output data
         """
         # Section 1: Condition the input and output data
-        self.X = self.__condition_data__(X)
-        self.Y = self.__condition_data__(Y)
+        self.X = self.__condition_data(X)
+        self.Y = self.__condition_data(Y)
 
         # Section 2: Append a column of 1's unless the 
         #     the user knows this is NOT necessary
         if self.fit_intercept and self.add_ones_column:
-            self.X = self.__add_ones_column_for_intercept__(self.X)
+            self.X = self.__add_ones_column_for_intercept(self.X)
 
         # Section 3: Transpose the data into the null 
         #     space of the X matrix using the transpose of X
@@ -96,7 +96,7 @@ class Least_Squares:
         AT = la.transpose(self.X)
         ATA = la.matrix_multiply(AT, self.X)
         ATB = la.matrix_multiply(AT, self.Y)
-        self.coefs = la.solve_equations(ATA, ATB, tol=self.tol)
+        self.coefs = la.solve_equations(ATA,ATB,tol=self.tol)
 
     def predict(self, X_test):
         """
@@ -107,53 +107,17 @@ class Least_Squares:
             :returns:  Output results for test data
         """   
         # Section 1: Condition the input data
-        self.X_test = self.__condition_data__(X_test)
+        self.X_test = self.__condition_data(X_test)
 
         # Section 2: Append a column of 1's unless the 
         #     the user knows this is NOT necessary
         if self.fit_intercept and self.add_ones_column:
-            self.X_test = self.__add_ones_column_for_intercept__(
+            self.X_test = self.__add_ones_column_for_intercept(
                 self.X_test)
 
         # Section 3: Apply the conditioned input data to the 
         #     model coefficients
         return la.matrix_multiply(self.X_test, self.coefs)
-
-    def __l2_normalize__(self, X):
-        nums = len(X)
-        vars = len(X[0])
-
-        Xnew = []
-        for i in range(nums):
-            Xnew.append([])
-            for j in range(vars):
-                Xnew[-1].append(X[i][j])
-
-        for var in range(vars):
-            sum = 0
-            sum_of_sqrs = 0
-
-            for num in range(nums):
-                sum += Xnew[num][var]
-
-            if sum == nums:
-                mean = 0
-            else:
-                mean = sum/nums
-
-            for num in range(nums):
-                Xnew[num][var] -= mean
-                sum_of_sqrs += Xnew[num][var]**2
-
-            if sum_of_sqrs == nums:
-                l2_norm = 1.0
-            else:
-                l2_norm = sum_of_sqrs**0.5
-
-            for num in range(nums):
-                Xnew[num][var] /= l2_norm
-
-        return Xnew
 
 
 class Poly_Features_Pure_Py:
